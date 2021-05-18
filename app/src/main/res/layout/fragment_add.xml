@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        tools:context=".AddFragment"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tf_schedtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Activity Name"
+            android:padding="15dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/til_schedtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tf_scheddetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Detail Activity"
+            android:padding="15dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/til_scheddetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tf_scheddate"
+                android:layout_width="291dp"
+                android:layout_height="wrap_content"
+                android:hint="Date"
+                android:onClick="showDatePickerDialog"
+                android:padding="15dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/til_scheddate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/btn_cal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_calendar"
+                tools:ignore="VectorDrawableCompat"
+                android:padding="15dp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tf_schedtime"
+                android:layout_width="291dp"
+                android:layout_height="wrap_content"
+                android:hint="Time"
+                android:padding="15dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/til_schedtime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/btn_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_clock"
+                tools:ignore="VectorDrawableCompat"
+                android:padding="15dp"/>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Activity"
+            />
+
+
+
+    </LinearLayout>
+</ScrollView>
