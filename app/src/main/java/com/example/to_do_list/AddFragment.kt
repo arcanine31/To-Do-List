@@ -1,15 +1,22 @@
 package com.example.to_do_list
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.to_do_list.database.DbContract
 import com.example.to_do_list.database.ReaderDbHelper
@@ -22,6 +29,9 @@ import java.util.*
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
+private val CHANNEL_ID = "to_do_list"
+private val notificationId = 101
 
 /**
  * A simple [Fragment] subclass.
@@ -38,6 +48,7 @@ class AddFragment : Fragment() {
     var mDay: Int = 0
     var mMonth: Int = 0
     var mYear: Int = 0
+    var newRowid: Long = 0L
 
 
     // TODO: Rename and change types of parameters
@@ -53,8 +64,8 @@ class AddFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add, container, false)
@@ -65,7 +76,7 @@ class AddFragment : Fragment() {
 
         dbHelper = ReaderDbHelper(activity!!)
         db = dbHelper.writableDatabase
-
+        createNotificationChannel()
         initListener()
     }
 
@@ -127,6 +138,9 @@ class AddFragment : Fragment() {
 
         btn_add.setOnClickListener {
             initAddData()
+            if (newRowid != -1L){
+                createNotification()
+            }
 
             val frHome: FragmentTransaction = activity!!
                 .getSupportFragmentManager().beginTransaction()
@@ -168,7 +182,7 @@ class AddFragment : Fragment() {
                 put(DbContract.DataEntry.COLUMN_TIME_MINUTE, minutes)
             }
 
-            val newRowid = db.insert(DbContract.DataEntry.TABLE_NAME, null, values)
+            newRowid = db.insert(DbContract.DataEntry.TABLE_NAME, null, values)
             if (newRowid == -1L) {
                 Toast.makeText(activity, "Failed", Toast.LENGTH_SHORT).show()
             } else {
@@ -178,6 +192,50 @@ class AddFragment : Fragment() {
 
         }
 
+    }
+
+    fun createNotification(){
+        var title = til_schedtitle.text.toString()
+        var detail = til_scheddetail.text.toString()
+        var date = til_schedtime.text.toString()
+        var time = til_schedtime.text.toString()
+
+        val intent = Intent(activity!!, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(activity, 0, intent, 0)
+
+        val charSeq: CharSequence = "Activity Name : " +
+                title + "\nDetail : " + detail + "\nDate : " +
+                date + "\nTime : " + time
+
+        val builder = NotificationCompat.Builder(activity!!, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle("" + title + " has been added")
+                .setContentText(detail)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(charSeq))
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(activity!!)){
+            notify(notificationId, builder.build())
+        }
+
+    }
+
+    fun createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val name = "To do list notification"
+            val descriptionText = "Notification Description"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager = activity!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+
+        }
     }
 
     companion object {
