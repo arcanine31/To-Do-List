@@ -1,14 +1,17 @@
 package com.example.to_do_list
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.os.Build
+import android.app.AlertDialog
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
+import android.content.SharedPreferences.Editor
 import android.os.Bundle
 import android.provider.BaseColumns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.to_do_list.adapter.ScheduleAdapter
@@ -16,6 +19,7 @@ import com.example.to_do_list.database.DbContract
 import com.example.to_do_list.database.ReaderDbHelper
 import com.example.to_do_list.model.Schedule
 import kotlinx.android.synthetic.main.fragment_home.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,6 +37,12 @@ class HomeFragment : Fragment() {
 
     lateinit var scheduleAdapter: ScheduleAdapter
     val lm = LinearLayoutManager(activity)
+    var titleHolder: String = ""
+    lateinit var mPreferences: SharedPreferences
+    private val sharePrefFile = "com.example.android.to_do_list"
+    var mTitle: String = "DEFINE YOUR SCHEDULE"
+
+    val TITLE_KEY = "title"
 
     lateinit var dbHelper: ReaderDbHelper
     // TODO: Rename and change types of parameters
@@ -58,14 +68,24 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+            tv_title_home.text = mTitle
+            dbHelper = ReaderDbHelper(activity!!)
+//            if (arguments!= null){
+                val prefs = activity!!.getSharedPreferences(sharePrefFile, MODE_PRIVATE)
+                val loadedString = prefs.getString(TITLE_KEY, null)
+                tv_title_home.setText(loadedString)
+//            }
 
-        dbHelper = ReaderDbHelper(activity!!)
-        initView()
+            initView()
+            initListener()
     }
 
     override fun onResume() {
         super.onResume()
-
+        if (!titleHolder.isNullOrBlank()){
+            tv_title_home.text = titleHolder
+        }
+        initListener()
         initView()
     }
 
@@ -109,6 +129,42 @@ class HomeFragment : Fragment() {
         scheduleAdapter = ScheduleAdapter(activity!!)
         rcview_item.adapter = scheduleAdapter
         scheduleAdapter.setSchedule(addSchedule)
+    }
+
+    fun initListener(){
+
+        //used for sharedPref
+        bt_edit_title.setOnClickListener{
+
+
+            val alertdg = AlertDialog.Builder(activity)
+            alertdg.setTitle("CHANGE TITLE")
+            alertdg.setMessage("Change your title")
+
+            val titleChange = EditText(activity)
+            titleChange.width = 5000
+
+            val layout = LinearLayout(activity)
+
+            layout.addView(titleChange)
+            alertdg.setView(layout)
+
+            alertdg.setPositiveButton("Ok") { dialog, which ->
+                titleHolder = titleChange.text.toString()
+
+                val Editor = activity!!.getSharedPreferences(sharePrefFile, MODE_PRIVATE).edit()
+                Editor.putString(TITLE_KEY, titleHolder)
+                Editor.apply()
+
+                tv_title_home.text = titleHolder
+
+            }
+
+            alertdg.setNegativeButton("Cancel") { dialog, which ->
+
+            }
+            alertdg.show()
+        }
     }
 
 
