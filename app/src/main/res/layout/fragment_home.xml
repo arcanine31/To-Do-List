@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/tv_title_home"
-            android:layout_width="292dp"
+            android:layout_width="250sp"
             android:layout_height="wrap_content"
             android:text="DEFINE YOUR SCHEDULE" />
 
@@ -24,7 +24,7 @@
             android:id="@+id/bt_edit_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit Header"
+            android:text="Edit"
             android:textColor="@color/black"
             style="@style/Widget.AppCompat.Button.Borderless"/>
 

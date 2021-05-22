@@ -69,12 +69,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
             tv_title_home.text = mTitle
-            dbHelper = ReaderDbHelper(activity!!)
-//            if (arguments!= null){
-                val prefs = activity!!.getSharedPreferences(sharePrefFile, MODE_PRIVATE)
+            dbHelper = ReaderDbHelper(requireActivity())
+        val prefs = requireActivity().getSharedPreferences(sharePrefFile, MODE_PRIVATE)
+        if (prefs.contains(TITLE_KEY)){
                 val loadedString = prefs.getString(TITLE_KEY, null)
                 tv_title_home.setText(loadedString)
-//            }
+            }
 
             initView()
             initListener()
@@ -126,7 +126,7 @@ class HomeFragment : Fragment() {
             }
         }
         rcview_item.layoutManager = lm
-        scheduleAdapter = ScheduleAdapter(activity!!)
+        scheduleAdapter = ScheduleAdapter(requireActivity())
         rcview_item.adapter = scheduleAdapter
         scheduleAdapter.setSchedule(addSchedule)
     }
@@ -152,7 +152,7 @@ class HomeFragment : Fragment() {
             alertdg.setPositiveButton("Ok") { dialog, which ->
                 titleHolder = titleChange.text.toString()
 
-                val Editor = activity!!.getSharedPreferences(sharePrefFile, MODE_PRIVATE).edit()
+                val Editor = requireActivity().getSharedPreferences(sharePrefFile, MODE_PRIVATE).edit()
                 Editor.putString(TITLE_KEY, titleHolder)
                 Editor.apply()
 
