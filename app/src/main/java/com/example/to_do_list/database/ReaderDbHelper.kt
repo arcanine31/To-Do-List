@@ -24,6 +24,10 @@ class ReaderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
     }
 
+//    override fun onDelete(db: SQLiteDatabase) {
+//        db.execSQL(SQL_CREATE_ENTRY)
+//    }
+
     companion object{
         const val DATABASE_NAME = "plant.db"
         const val DATABASE_VERSION = 1
