@@ -35,16 +35,16 @@ private const val ARG_PARAM2 = "param2"
  */
 class HomeFragment : Fragment() {
 
-    lateinit var scheduleAdapter: ScheduleAdapter
-    val lm = LinearLayoutManager(activity)
-    var titleHolder: String = ""
+    lateinit var scheduleAdapter: ScheduleAdapter  //inisialisasi adapter untuk recycler view schedule
+    val lm = LinearLayoutManager(activity) //inisialisasi linearlayout
+    var titleHolder: String = "" //inisialisasi title yang nanti bisa di edit edit
     lateinit var mPreferences: SharedPreferences
     private val sharePrefFile = "com.example.android.to_do_list"
     var mTitle: String = "DEFINE YOUR SCHEDULE"
 
     val TITLE_KEY = "title"
 
-    lateinit var dbHelper: ReaderDbHelper
+    lateinit var dbHelper: ReaderDbHelper //database
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
+    override fun onCreateView( //menampilkan layout ketika pertama kali masuk ke HomeFragment
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
@@ -69,11 +69,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
             tv_title_home.text = mTitle
-            dbHelper = ReaderDbHelper(requireActivity())
+            dbHelper = ReaderDbHelper(requireActivity()) //database dapat diakses jika fragment terikat dengan activity
         val prefs = requireActivity().getSharedPreferences(sharePrefFile, MODE_PRIVATE)
         if (prefs.contains(TITLE_KEY)){
                 val loadedString = prefs.getString(TITLE_KEY, null)
-                tv_title_home.setText(loadedString)
+                tv_title_home.setText(loadedString) //ganti judul dengan yang user mau
             }
 
             initView()
@@ -82,16 +82,16 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (!titleHolder.isNullOrBlank()){
+        if (!titleHolder.isNullOrBlank()){ //kalau title nya tidak kosong
             tv_title_home.text = titleHolder
         }
         initListener()
         initView()
     }
 
-    private fun initView() {
+    private fun initView() { //inisialisasi tampilan
         val db = dbHelper.readableDatabase
-        val projection = arrayOf(
+        val projection = arrayOf( //mengisi data ke database
                 BaseColumns._ID,
                 DbContract.DataEntry.COLUMN_SCHED_NAME,
                 DbContract.DataEntry.COLUMN_DETAIL,
@@ -111,7 +111,7 @@ class HomeFragment : Fragment() {
                 null,
         )
 
-        val addSchedule = mutableListOf<Schedule>()
+        val addSchedule = mutableListOf<Schedule>() //list dapat diubah-ubah
         with(cursor){
             while (moveToNext()){
                 val id = getLong(getColumnIndex(BaseColumns._ID))
@@ -137,7 +137,7 @@ class HomeFragment : Fragment() {
         bt_edit_title.setOnClickListener{
 
 
-            val alertdg = AlertDialog.Builder(activity)
+            val alertdg = AlertDialog.Builder(activity) //untuk munculin kotak alert
             alertdg.setTitle("CHANGE TITLE")
             alertdg.setMessage("Change your title")
 

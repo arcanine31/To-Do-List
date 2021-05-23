@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener{
         val frHome = supportFragmentManager.beginTransaction()
         frHome.add(R.id.frag_container, HomeFragment())
         frHome.commit()
-
     }
 
     private val onBottomNavListener = BottomNavigationView.OnNavigationItemSelectedListener { i ->
