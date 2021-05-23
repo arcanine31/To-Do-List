@@ -1,6 +1,7 @@
 package com.example.to_do_list.database
 
 import android.provider.BaseColumns
+// database creator for database table used in app
 
 object DbContract {
 

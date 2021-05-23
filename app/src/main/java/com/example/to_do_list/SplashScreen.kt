@@ -7,7 +7,8 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatDelegate
 
-//@Suppress("DEPRECATION")
+
+// Splash Screen activity to greet user and this activity is doing nothing
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

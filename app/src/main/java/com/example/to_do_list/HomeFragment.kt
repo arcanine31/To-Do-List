@@ -6,19 +6,24 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import android.os.Bundle
 import android.provider.BaseColumns
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.to_do_list.adapter.ScheduleAdapter
 import com.example.to_do_list.database.DbContract
 import com.example.to_do_list.database.ReaderDbHelper
 import com.example.to_do_list.model.Schedule
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.item_list.*
+import org.w3c.dom.Text
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -33,6 +38,8 @@ private const val ARG_PARAM2 = "param2"
  * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+// Displayed Fragment when Home menu is selected
 class HomeFragment : Fragment() {
 
     lateinit var scheduleAdapter: ScheduleAdapter
@@ -71,6 +78,8 @@ class HomeFragment : Fragment() {
             tv_title_home.text = mTitle
             dbHelper = ReaderDbHelper(requireActivity())
         val prefs = requireActivity().getSharedPreferences(sharePrefFile, MODE_PRIVATE)
+
+//        checking if TITLE_KEY is holding value, if so then the title is changed
         if (prefs.contains(TITLE_KEY)){
                 val loadedString = prefs.getString(TITLE_KEY, null)
                 tv_title_home.setText(loadedString)
@@ -80,16 +89,21 @@ class HomeFragment : Fragment() {
             initListener()
     }
 
+//    will called when entering resume phase from closing dialog to edit title
     override fun onResume() {
         super.onResume()
-        if (!titleHolder.isNullOrBlank()){
+        if (!titleHolder.isBlank()){
             tv_title_home.text = titleHolder
         }
         initListener()
         initView()
+
     }
 
+
+//    populate recycleview using data from database contained in item_list
     private fun initView() {
+
         val db = dbHelper.readableDatabase
         val projection = arrayOf(
                 BaseColumns._ID,
@@ -111,6 +125,7 @@ class HomeFragment : Fragment() {
                 null,
         )
 
+//    Adding all data from beginning to the end of database
         val addSchedule = mutableListOf<Schedule>()
         with(cursor){
             while (moveToNext()){
@@ -131,9 +146,12 @@ class HomeFragment : Fragment() {
         scheduleAdapter.setSchedule(addSchedule)
     }
 
+//    edit title listener button
+
     fun initListener(){
 
-        //used for sharedPref
+        //used for sharedPref on title below recycleView container
+//        will display dialog to receive text input from user to change title
         bt_edit_title.setOnClickListener{
 
 

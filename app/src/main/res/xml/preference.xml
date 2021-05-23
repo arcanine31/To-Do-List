@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreferenceCompat
+        android:key="time"
+        android:title="Time Display Preference"
+        android:summary="Switch to display time on the list"
+        android:defaultValue="true"/>
+
+    <SwitchPreferenceCompat
+        android:key="date"
+        android:title="Date Display Preference"
+        android:summary="Switch to display date on the list"
+        android:defaultValue="true"/>
+
+    <CheckBoxPreference
+        android:key="detail"
+        android:summary="Tap to display detail on the activity list"
+        android:title="Detail View "
+        android:defaultValue="true"/>
+
+</PreferenceScreen>
