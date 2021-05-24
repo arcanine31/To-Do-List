@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
-
+// Database Helper to create, read, update, and delete data base using query
 class ReaderDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION){
 
     private val SQL_CREATE_ENTRY = "CREATE TABLE ${DbContract.DataEntry.TABLE_NAME} (" +
