@@ -134,7 +134,7 @@ class AddFragment : Fragment() {
                     til_schedtime.setText(messageT)
 
                 }, currentHour, currentMinute, true)
-            timePickerDialog.setTitle("Pick Date")
+            timePickerDialog.setTitle("Pick Time")
             timePickerDialog.setAccentColor(Color.BLUE)
             timePickerDialog.setOkText("Confirm")
             timePickerDialog.setCancelText("Cancel")
