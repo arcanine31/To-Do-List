@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backgroundapp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -13,19 +14,32 @@
         tools:context=".AddFragment"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Write your activity"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="25dp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tf_schedtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Activity Name"
+            android:textColorHint="@color/black"
+            app:boxBackgroundColor="@color/gray"
+            app:boxCornerRadiusBottomEnd="5dp"
+            app:boxCornerRadiusBottomStart="5dp"
+            app:boxCornerRadiusTopEnd="5dp"
+            app:boxCornerRadiusTopStart="5dp"
             android:padding="15dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/til_schedtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                />
+                android:inputType="textMultiLine" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -34,6 +48,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Detail Activity"
+            android:textColorHint="@color/black"
+            app:boxBackgroundColor="@color/gray"
+            app:boxCornerRadiusBottomEnd="5dp"
+            app:boxCornerRadiusBottomStart="5dp"
+            app:boxCornerRadiusTopEnd="5dp"
+            app:boxCornerRadiusTopStart="5dp"
             android:padding="15dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -55,6 +75,12 @@
                 android:layout_width="291dp"
                 android:layout_height="wrap_content"
                 android:hint="Date"
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@color/gray"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
                 android:onClick="showDatePickerDialog"
                 android:padding="15dp">
 
@@ -88,6 +114,12 @@
                 android:layout_width="291dp"
                 android:layout_height="wrap_content"
                 android:hint="Time"
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@color/gray"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
                 android:padding="15dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -114,10 +146,8 @@
             android:id="@+id/btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Activity"
-            />
-
-
-
+            android:background="@color/orange"
+            android:layout_gravity="center"
+            android:text="Add Activity" />
     </LinearLayout>
 </ScrollView>

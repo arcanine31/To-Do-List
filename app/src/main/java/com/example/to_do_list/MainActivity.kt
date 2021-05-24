@@ -18,7 +18,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
-
 class MainActivity : AppCompatActivity(), SensorEventListener{
 
     private lateinit var sensorManager: SensorManager
@@ -31,7 +30,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener{
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         setUpSensor()
-
 
         bottom_navigation.setOnNavigationItemSelectedListener(onBottomNavListener)
 
@@ -62,12 +60,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener{
             }
         }
 
-
-
         true
     }
 
-    private fun setUpSensor(){
+    private fun setUpSensor(){ //buat memberitahu user bahwa device tidak memiliki sensor cahaya
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
@@ -76,6 +72,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener{
             finish();
         }
     }
+
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_LIGHT) {
             val light1 = event.values[0].toInt()
@@ -96,10 +93,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener{
                 alertdg.show()
 
             }
-
         }
     }
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) { //method bawaan sensoreventlistener
         return
     }
 
@@ -109,23 +106,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener{
         sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
-
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
     }
 }
-
-//    private fun brightness(brightness: Float): String {
-//
-//        return when (brightness.toInt()) {
-//            0 -> "Pitch black"
-//            in 1..10 -> "Dark"
-//            in 11..50 -> "Grey"
-//            in 51..5000 -> "Normal"
-//            in 5001..25000 -> "Incredibly bright"
-//            else -> "This light will blind you"
-//        }
-//    }
-
-//}
