@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class MainActivity : AppCompatActivity(), SensorEventListener{
-
+    // initiating variable used in sensor
     private lateinit var sensorManager: SensorManager
     private var lightSensor: Sensor? = null
 
@@ -40,47 +40,48 @@ class MainActivity : AppCompatActivity(), SensorEventListener{
         frHome.commit()
     }
 
+    //    selecting listener for Bottom Navigation to switch between fragment
     private val onBottomNavListener = BottomNavigationView.OnNavigationItemSelectedListener { i ->
         var selectedFr: Fragment = HomeFragment()
-        val fr = supportFragmentManager.beginTransaction()
 
         when(i.itemId){
             R.id.mn_home -> {
                 selectedFr = HomeFragment()
-                fr.replace(R.id.frag_container, selectedFr)
-                fr.commit()
             }
             R.id.mn_add -> {
                 selectedFr = AddFragment()
-                fr.replace(R.id.frag_container, selectedFr)
-                fr.commit()
             }
             R.id.mn_setting -> {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                selectedFr = SettingsFragment()
             }
         }
+        val fr = supportFragmentManager.beginTransaction()
+        fr.replace(R.id.frag_container, selectedFr)
+        fr.commit()
 
 
 
         true
     }
 
+    //    Sensor set up to check whether device has required sensor or not
     private fun setUpSensor(){
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 
         lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
         if (lightSensor == null) {
-            Toast.makeText(this, "The device has no light sensor !", Toast.LENGTH_SHORT).show();
-            finish();
+            Toast.makeText(this, "The device has no light sensor !", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
+
+    //    Event when some value retrieve from used sensor
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_LIGHT) {
             val light1 = event.values[0].toInt()
             Log.i("BrightnessChange", "onSensorChanged: ${light1} ")
 
+//            if light value from sensor is below 2 alert dialog will appear
             if(light1 < 2){
                 val alertdg = AlertDialog.Builder(this)
                 alertdg.setTitle("Environment brigtness is too low")
@@ -99,6 +100,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener{
 
         }
     }
+
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         return
     }
@@ -115,17 +117,3 @@ class MainActivity : AppCompatActivity(), SensorEventListener{
         sensorManager.unregisterListener(this)
     }
 }
-
-//    private fun brightness(brightness: Float): String {
-//
-//        return when (brightness.toInt()) {
-//            0 -> "Pitch black"
-//            in 1..10 -> "Dark"
-//            in 11..50 -> "Grey"
-//            in 51..5000 -> "Normal"
-//            in 5001..25000 -> "Incredibly bright"
-//            else -> "This light will blind you"
-//        }
-//    }
-
-//}

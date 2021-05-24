@@ -197,7 +197,7 @@ class AddFragment : Fragment() {
     fun createNotification(){
         var title = til_schedtitle.text.toString()
         var detail = til_scheddetail.text.toString()
-        var date = til_schedtime.text.toString()
+        var date = til_scheddate.text.toString()
         var time = til_schedtime.text.toString()
 
         val intent = Intent(activity!!, MainActivity::class.java).apply {

@@ -58,8 +58,8 @@ class HomeFragment : Fragment(){
     }
 
     override fun onCreateView( //menampilkan layout ketika pertama kali masuk ke HomeFragment
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -68,27 +68,27 @@ class HomeFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            tv_title_home.text = mTitle
-            dbHelper = ReaderDbHelper(requireActivity()) //database dapat diakses jika fragment terikat dengan activity
+        tv_title_home.text = mTitle
+        dbHelper = ReaderDbHelper(requireActivity()) //database dapat diakses jika fragment terikat dengan activity
 
-            val prefs = requireActivity().getSharedPreferences(sharePrefFile, MODE_PRIVATE)
+        val prefs = requireActivity().getSharedPreferences(sharePrefFile, MODE_PRIVATE)
 
-            //        checking if TITLE_KEY is holding value, if so then the title is changed
-            if (prefs.contains(TITLE_KEY)){
-                val loadedString = prefs.getString(TITLE_KEY, null)
-                tv_title_home.setText(loadedString) //ganti judul dengan yang user mau
-            }
+        //        checking if TITLE_KEY is holding value, if so then the title is changed
+        if (prefs.contains(TITLE_KEY)){
+            val loadedString = prefs.getString(TITLE_KEY, null)
+            tv_title_home.setText(loadedString) //ganti judul dengan yang user mau
+        }
 //            scheduleAdapter.notifyDataSetChanged()
-            initView()
-            initListener()
-            scheduleAdapter.notifyDataSetChanged()
+        initView()
+        initListener()
+        scheduleAdapter.notifyDataSetChanged()
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }
 
-//    will called when entering resume phase from closing dialog to edit title
+    //    will called when entering resume phase from closing dialog to edit title
     override fun onResume() {
         super.onResume()
         if (!titleHolder.isBlank()){ //kalau title nya tidak kosong
@@ -101,27 +101,27 @@ class HomeFragment : Fragment(){
     }
 
 
-//    populate recycleview using data from database contained in item_list
+    //    populate recycleview using data from database contained in item_list
     private fun initView() { //inisialisasi tampilan
         val db = dbHelper.readableDatabase
         val projection = arrayOf( //mengisi data ke database
-                BaseColumns._ID,
-                DbContract.DataEntry.COLUMN_SCHED_NAME,
-                DbContract.DataEntry.COLUMN_DETAIL,
-                DbContract.DataEntry.COLUMN_DATE_DAY,
-                DbContract.DataEntry.COLUMN_DATE_MONTH,
-                DbContract.DataEntry.COLUMN_DATE_YEAR,
-                DbContract.DataEntry.COLUMN_TIME_HOUR,
-                DbContract.DataEntry.COLUMN_TIME_MINUTE)
+            BaseColumns._ID,
+            DbContract.DataEntry.COLUMN_SCHED_NAME,
+            DbContract.DataEntry.COLUMN_DETAIL,
+            DbContract.DataEntry.COLUMN_DATE_DAY,
+            DbContract.DataEntry.COLUMN_DATE_MONTH,
+            DbContract.DataEntry.COLUMN_DATE_YEAR,
+            DbContract.DataEntry.COLUMN_TIME_HOUR,
+            DbContract.DataEntry.COLUMN_TIME_MINUTE)
 
         val cursor = db.query(
-                DbContract.DataEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null,
+            DbContract.DataEntry.TABLE_NAME,
+            projection,
+            null,
+            null,
+            null,
+            null,
+            null,
         )
 
 //    Adding all data from beginning to the end of database
